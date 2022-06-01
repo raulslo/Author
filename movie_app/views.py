@@ -30,6 +30,8 @@ def MovieListView(request):
     return Response(data=data)
 
 
+
+
 @api_view(['GET'])
 def MovieDetailView(request, id):
     try:
@@ -38,6 +40,9 @@ def MovieDetailView(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'Movie not found'})
     data = serializers.MovieSerializersDetail(movie).data
     return Response(data=data)
+
+
+
 
 
 @api_view(['GET'])

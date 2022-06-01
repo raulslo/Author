@@ -26,7 +26,9 @@ urlpatterns = [
 
     path('api/v1/movies/', views.MovieListView),
     path('api/v1/movies/<int:id>/', views.MovieDetailView),
+    path('api/v1/movies/reviews/', views.MovieListView),
 
     path('api/v1/reviews/', views.ReviewListView),
     path('api/v1/reviews/<int:id>/', views.ReviewDetailView),
+
 ]
