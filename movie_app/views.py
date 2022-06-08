@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from movie_app.serializers import DirectorSerializers, MovieSerializersList, ReviewSerializers
+from movie_app.serializers import DirectorSerializers, MovieSerializersList, ReviewSerializers, DirectorValidateSerializer, MovieValidateSerializer, ReviewValidateSerializer
+
 from movie_app.models import Director, Movie, Review
 from rest_framework import status
 
@@ -12,10 +13,13 @@ def Director_Create_ListView(request):
         serializer = DirectorSerializers(directors, many=True)
         return Response(data=serializer.data)
     elif request.method == 'POST':
+        serializers_ = DirectorValidateSerializer(data=request.data)
+        if not serializers_.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
+                            data={'errors': serializers_.errors})
         name = request.data.get('name')
         director = Director.objects.create(name=name)
         return Response(data=DirectorSerializers(director).data)
-
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def DirectorDetailView(request, id):
@@ -43,12 +47,16 @@ def Movie_Create_ListView(request):
         serializer = MovieSerializersList(movies, many=True)
         return Response(data=serializer.data)
     elif request.method == 'POST':
+        serializers_ = MovieValidateSerializer(data=request.data)
+        if not serializers_.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
+                            data={'errors': serializers_.errors})
         title = request.data.get('title')
         description = request.data.get('description')
         duration = request.data.get('duration')
         director_id = request.data.get('director_id')
-        movie = Movie.objects.create(title=title, description=description,
-                                     duration=duration, director_id=director_id)
+        movie = Movie.objects.create(title=title, description=description, duration=duration,
+                                     director_id=director_id)
         return Response(data=MovieSerializersList(movie).data)
 
 
@@ -81,11 +89,14 @@ def Review_Create_ListView(request):
         serializer = ReviewSerializers(reviews, many=True)
         return Response(data=serializer.data)
     elif request.method == 'POST':
+        serializers_ = ReviewValidateSerializer(data=request.data)
+        if not serializers_.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
+                            data={'errors': serializers_.errors})
         text = request.data.get('text')
         movie_id = request.data.get('movie_id')
         stars = request.data.get('stars')
-        review = Review.objects.create(text=text, movie_id=movie_id,
-                                       stars=stars)
+        review = Review.objects.create(text=text, movie_id=movie_id, stars=stars)
         return Response(data=ReviewSerializers(review).data)
 
 
