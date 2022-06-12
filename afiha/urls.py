@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from movie_app import views
+from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +31,8 @@ urlpatterns = [
 
     path('api/v1/reviews/', views.Review_Create_ListView),
     path('api/v1/reviews/<int:id>/', views.ReviewDetailView),
+
+    path('api/v1/register/', user_views.registration),
+    path('api/v1/login/', user_views.authorization)
 
 ]
