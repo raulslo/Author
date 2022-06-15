@@ -22,17 +22,17 @@ from user import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/v1/directors/', views.Director_Create_ListView),
-    path('api/v1/directors/<int:id>/', views.DirectorDetailView),
+    path('api/v1/directors/', views.DirectorCreateListAPIVeiw.as_view()),
+    path('api/v1/directors/<int:pk>/', views.DirectorDetailUpdateDestroyAPIView.as_view()),
 
-    path('api/v1/movies/', views.Movie_Create_ListView),
-    path('api/v1/movies/<int:id>/', views.MovieDetailView),
-    path('api/v1/movies/reviews/', views.Movie_Create_ListView),
+    path('api/v1/movies/', views.MovieCreateListAPIVeiw.as_view()),
+    path('api/v1/movies/<int:id>/', views.MovieDetailUpdateDestroyAPIView.as_view()),
 
-    path('api/v1/reviews/', views.Review_Create_ListView),
-    path('api/v1/reviews/<int:id>/', views.ReviewDetailView),
 
-    path('api/v1/register/', user_views.registration),
-    path('api/v1/login/', user_views.authorization)
+    path('api/v1/reviews/', views.ReviewCreateListAPIVeiw.as_view()),
+    path('api/v1/reviews/<int:id>/', views.ReviewDetailUpdateDestroyAPIView.as_view()),
+
+    path('api/v1/register/', user_views.RegisterAPIView.as_view()),
+    path('api/v1/login/', user_views.AuthorizationAPIView.as_view())
 
 ]
